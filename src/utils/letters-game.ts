@@ -1,4 +1,4 @@
-import {add, subs} from './helper'
+import {add, subs, shuffle} from './helper'
 import dataBoard from '../data/test-board-1.json'
 // import board2 from '../data/test-board-2.json'
 const sumBy4 = add(4)
@@ -49,8 +49,6 @@ function validTiles(lastSelected: number) {
   return [...remainingTiles,...previousTiles].filter(rangeOfTiles)
 }
 
-function shuffle(list: Array<any>) {
-  return list.sort(() => Math.random() - 0.5)
-}
+
 
 export {getTiles, shuffle, validTiles}
