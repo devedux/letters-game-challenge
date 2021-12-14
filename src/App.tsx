@@ -8,7 +8,7 @@ import useLettersGame from './hooks/useLettersGame'
 
 export default function App() {
   const lettersGame = useLettersGame()
-  const {data: tiles, board, selectTile, word, restartGame} = lettersGame
+  const {data: tiles, board, selectTile, word, restartGame, positions, isValid} = lettersGame
 
   return (
     <>
@@ -21,7 +21,8 @@ export default function App() {
                 tiles={tiles}
                 board={board}
                 onClick={selectTile}
-                word={word}
+                positions={positions}
+                isValid={isValid}
               />
               <div className='game-preview'>
                 {word.length > 0 ? (
@@ -30,7 +31,7 @@ export default function App() {
                   </span>
                 ): <span></span>}
                 
-                <BoxLetter word={word} />
+                <BoxLetter word={word} isValid={isValid} />
               </div>
             </div>
           </Container>

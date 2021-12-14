@@ -32,7 +32,6 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid red;
     align-items: end;
 
     .game-reset {

@@ -1,11 +1,8 @@
-import * as React from 'react'
 import styled from 'styled-components'
-import dictionary from '../data/dictionary.json'
 
-export default function BoxLetter({word}: {word: string}) {
-  const isValid = React.useMemo(() => dictionary.words.includes(word), [word]) as boolean
+export default function BoxLetter({word, isValid}: {word: string, isValid: boolean}) {
   return (
-    <BoxLetterStyled>
+    <BoxLetterStyled isValid={isValid}>
       <span>{word}</span>
       <BoxValid className='is-valid' isValid={isValid}>
         {word ? isValid ? 'valid' : 'invalid' : ''}
@@ -14,11 +11,11 @@ export default function BoxLetter({word}: {word: string}) {
   )
 }
 
-const BoxLetterStyled = styled.div`
+const BoxLetterStyled = styled.div<{ isValid: boolean }>`
   border: 2px solid #AAAAAA;
   width: 100%;
   padding: 1rem 1.5rem;
-  color: #D0021B;
+  color: ${props => props.isValid ? '#7ED321' : '#D0021B'};
   font-weight: bold;
   font-size: 1.8rem;
   letter-spacing: 0.2rem;

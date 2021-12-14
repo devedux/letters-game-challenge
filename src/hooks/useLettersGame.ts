@@ -1,13 +1,15 @@
 // import dataTest1Board from '../data/test-board-1.json'
 import dataTest2Board from '../data/test-board-2.json'
 import * as React from 'react'
+import dictionary from '../data/dictionary.json'
 
 const initialState = {
   quantity: 15, // for position of a array
   board: 4,
   data: dataTest2Board.board,
   lastTilePositionSelected: undefined,
-  word: ''
+  word: '',
+  positions: [],
 }
 
 interface IState {
@@ -15,13 +17,15 @@ interface IState {
   board: number,
   data: string[],
   lastTilePositionSelected: undefined | number,
-  word: string
+  word: string,
+  positions: number[],
 }
 
 type ActionType = 
   | { type: 'SELECT_TILE', tilePosition: number }
   | { type: 'ADD_WORD', letter: string }
   | { type: 'RESTART_GAME' }
+  | { type: 'ADD_POSITION', position: number }
 
 const letterGameReducer: React.Reducer<IState, ActionType> = (state, action) => {
   switch (action.type) {
@@ -30,7 +34,9 @@ const letterGameReducer: React.Reducer<IState, ActionType> = (state, action) => 
     case 'ADD_WORD':
       return { ...state, word: state.word + action.letter }
     case 'RESTART_GAME':
-      return { ...state, word: '', lastTilePositionSelected: undefined }
+      return { ...state, word: '', lastTilePositionSelected: undefined, positions: [] }
+    case 'ADD_POSITION':
+      return { ...state, positions: [...state.positions, action.position] }
     default:
       throw new Error()
   }
@@ -64,6 +70,10 @@ export default function useLettersGame() {
       [state.quantity],
     )
   }, [state.board, state.quantity])
+
+  const isValid = React.useMemo(
+    () => dictionary.words.includes(state.word.toLocaleLowerCase(),
+  ), [state.word]) as boolean
 
   function getPreviousTilesPosition(lastPositionSelected: number) {
     if (tilesPositionLeft.includes(lastPositionSelected) || 
@@ -110,7 +120,7 @@ export default function useLettersGame() {
 
   function selectTile(letter: string, position: number) {
     if (state.lastTilePositionSelected !== undefined) {
-      if (state.word.includes(letter)) {
+      if (state.positions.includes(position)) {
         alert('esta letra ya fue seleccionada')
         return
       }
@@ -120,6 +130,7 @@ export default function useLettersGame() {
       }
     }
     dispatch({ type: 'ADD_WORD', letter })
+    dispatch({ type: 'ADD_POSITION', position })    
     dispatch({ type: 'SELECT_TILE', tilePosition: position })
   }
 
@@ -127,5 +138,5 @@ export default function useLettersGame() {
     dispatch({ type: 'RESTART_GAME' })
   }
 
-  return { ...state, selectTile, restartGame }
+  return { ...state, selectTile, restartGame, isValid }
 }
