@@ -2,10 +2,11 @@ import styled from 'styled-components'
 
 type BoardProps = {
   tiles: Array<string>,
-  onClick: (letter: string, position: number) => void
+  onClick: (letter: string, position: number) => void,
+  board: number
 }
 
-export default function Board({tiles, onClick}: BoardProps) {
+export default function Board({tiles, onClick, board}: BoardProps) {
   function renderTile(letter: string, index: number) {
     return (
       <TileStyled key={index} onClick={() => onClick(letter, index)}>
@@ -14,17 +15,17 @@ export default function Board({tiles, onClick}: BoardProps) {
     )
   }
   return (
-    <BoardStyled>
+    <BoardStyled board={board}>
       {tiles.map(renderTile)}
     </BoardStyled>
   )
 }
 
-const BoardStyled = styled.div`
+const BoardStyled = styled.div<{board: number}>`
   display: grid;
-  grid-template-columns: repeat(4, 40px);
-  grid-auto-rows: 40px;
-  grid-gap: 5px;
+  grid-template-columns: ${props => `repeat(${props.board}, 50px)`};
+  grid-auto-rows: 50px;
+  grid-gap: 8px;
 `
 const TileStyled = styled.div`
   cursor: pointer;
