@@ -8,7 +8,7 @@ import useLettersGame from './hooks/useLettersGame'
 
 export default function App() {
   const lettersGame = useLettersGame()
-  const {data: tiles, board, selectTile, word} = lettersGame
+  const {data: tiles, board, selectTile, word, restartGame} = lettersGame
 
   return (
     <>
@@ -16,14 +16,20 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <Container prefix='layout'>
           <Container prefix='content'>
-            <div className='flex gap-20 align-end mx-700'>
+            <div className='flex gap-20 mx-700'>
               <Board
                 tiles={tiles}
                 board={board}
                 onClick={selectTile}
                 word={word}
               />
-              <div className='w100 h100'>
+              <div className='game-preview'>
+                {word.length > 0 ? (
+                  <span className='game-reset' onClick={restartGame}>
+                    clear word
+                  </span>
+                ): <span></span>}
+                
                 <BoxLetter word={word} />
               </div>
             </div>

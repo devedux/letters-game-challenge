@@ -1,10 +1,11 @@
-import dataTest1Board from '../data/test-board-1.json'
+// import dataTest1Board from '../data/test-board-1.json'
+import dataTest2Board from '../data/test-board-2.json'
 import * as React from 'react'
 
 const initialState = {
   quantity: 15, // for position of a array
   board: 4,
-  data: dataTest1Board.board,
+  data: dataTest2Board.board,
   lastTilePositionSelected: undefined,
   word: ''
 }
@@ -20,6 +21,7 @@ interface IState {
 type ActionType = 
   | { type: 'SELECT_TILE', tilePosition: number }
   | { type: 'ADD_WORD', letter: string }
+  | { type: 'RESTART_GAME' }
 
 const letterGameReducer: React.Reducer<IState, ActionType> = (state, action) => {
   switch (action.type) {
@@ -27,6 +29,8 @@ const letterGameReducer: React.Reducer<IState, ActionType> = (state, action) => 
       return { ...state, lastTilePositionSelected: action.tilePosition }
     case 'ADD_WORD':
       return { ...state, word: state.word + action.letter }
+    case 'RESTART_GAME':
+      return { ...state, word: '', lastTilePositionSelected: undefined }
     default:
       throw new Error()
   }
@@ -105,7 +109,6 @@ export default function useLettersGame() {
   }
 
   function selectTile(letter: string, position: number) {
-    console.log(letter,'-', position)
     if (state.lastTilePositionSelected !== undefined) {
       if (state.word.includes(letter)) {
         alert('esta letra ya fue seleccionada')
@@ -120,5 +123,9 @@ export default function useLettersGame() {
     dispatch({ type: 'SELECT_TILE', tilePosition: position })
   }
 
-  return { ...state, selectTile }
+  function restartGame() {
+    dispatch({ type: 'RESTART_GAME' })
+  }
+
+  return { ...state, selectTile, restartGame }
 }
