@@ -1,15 +1,21 @@
 import styled from 'styled-components'
-import {shuffle} from '../utils/letters-game'
 
-export default function Board({tiles}: {tiles: Array<string>}) {
-  console.log(tiles,'tiles')
+type BoardProps = {
+  tiles: Array<string>,
+  onClick: (letter: string, position: number) => void
+}
+
+export default function Board({tiles, onClick}: BoardProps) {
+  function renderTile(letter: string, index: number) {
+    return (
+      <TileStyled key={index} onClick={() => onClick(letter, index)}>
+        {letter}
+      </TileStyled>
+    )
+  }
   return (
     <BoardStyled>
-      {shuffle(tiles).map((tile, index) => (
-        <TileStyled key={tile}>
-          {tile}
-        </TileStyled>
-      ))}
+      {tiles.map(renderTile)}
     </BoardStyled>
   )
 }
@@ -18,7 +24,9 @@ const BoardStyled = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 40px);
   grid-auto-rows: 40px;
+  grid-gap: 5px;
 `
 const TileStyled = styled.div`
-
+  cursor: pointer;
+  border: 1px solid;
 `
