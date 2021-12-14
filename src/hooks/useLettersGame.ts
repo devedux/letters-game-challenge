@@ -62,7 +62,7 @@ export default function useLettersGame() {
   }, [state.board, state.quantity])
 
   function getPreviousTilesPosition(lastPositionSelected: number) {
-    if (tilesPositionLeft.includes(lastPositionSelected) && 
+    if (tilesPositionLeft.includes(lastPositionSelected) || 
         tilesPositionRight.includes(lastPositionSelected)) {
       return []
     }
@@ -73,7 +73,18 @@ export default function useLettersGame() {
   }
 
   function tilesPositionRange(position: number | undefined) {
-    return position !== undefined && position >= 0 && position <= state.quantity
+    if (position === undefined) return false;
+
+    const topTilePosition = state.quantity - state.board
+    const prevTilePosition = state.quantity - 1
+    const topPrevTilePosition = prevTilePosition - state.board
+    const validTilePositionSinceBoardQuantity = [topTilePosition, prevTilePosition, topPrevTilePosition]
+
+    let positionMinusOrEqual = position < state.quantity
+    if (validTilePositionSinceBoardQuantity.includes(state.lastTilePositionSelected!)) {
+      positionMinusOrEqual = position <= state.quantity
+    }
+    return position >= 0 && positionMinusOrEqual
   }
 
   function getRemainingTilesPosition(lastPositionSelected: number) {
