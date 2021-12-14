@@ -46,6 +46,8 @@ const TileStyled = styled.div<{ isSelected: boolean }>`
   font-size: 30px;
   text-shadow: -2px -1px 3px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  transition: transform 0.5s ease-in-out;
+
   &::after {
     position: absolute;
     top: -2px;
@@ -58,8 +60,18 @@ const TileStyled = styled.div<{ isSelected: boolean }>`
     border-radius: 8px;
   }
 
+  &:hover {
+    transform: rotate(3deg) scale(1.1);
+    transition: transform 0.5s ease-in-out;
+  }
+
   ${props => props.isSelected && `
     background: linear-gradient(#F4505F, #A2071E);
     background-clip: padding-box;
+    box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.25);
+    transition: transform 0.5s ease-in-out;
+    &:hover {
+      transform: rotate(1.2deg);
+    }
   `}
 `
