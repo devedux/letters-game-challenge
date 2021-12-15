@@ -1,4 +1,3 @@
-// import dataTest1Board from '../data/test-board-1.json'
 import dataTest2Board from '../data/test-board-2.json'
 import * as React from 'react'
 import dictionary from '../data/dictionary.json'
@@ -121,11 +120,11 @@ export default function useLettersGame() {
   function selectTile(letter: string, position: number) {
     if (state.lastTilePositionSelected !== undefined) {
       if (state.positions.includes(position)) {
-        alert('esta letra ya fue seleccionada')
+        alert('This tile has already been selected, please select another tile 📛!!!')
         return
       }
       if (!validTiles(state.lastTilePositionSelected).includes(position)) {
-         alert('tile no valida, porfavor seleccione una casilla vecina')
+         alert('Only can select neighbor tiles to the last tile selected 📛!!!')
          return;
       }
     }
