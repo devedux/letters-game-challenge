@@ -2,6 +2,15 @@ import dataTest2Board from '../data/test-board-2.json'
 import * as React from 'react'
 import dictionary from '../data/dictionary.json'
 
+/**
+ * @var quantity indicates the maximum position of the table
+ * @var board indicates the quantity of tiles to be repeated to generate the table, for example (4 x 4)
+ * @var data contains a array of letters
+ * @var lastTilePositionSelected contains the last position of the selected tile
+ * @var word contains the selected letters
+ * @var positions containes the selected positions
+ */
+
 const initialState = {
   quantity: 15, // for position of a array
   board: 4,
@@ -37,10 +46,15 @@ const letterGameReducer: React.Reducer<IState, ActionType> = (state, action) => 
     case 'ADD_POSITION':
       return { ...state, positions: [...state.positions, action.position] }
     default:
-      throw new Error()
+      throw new Error('Invalid action type')
   }
 }
 
+/**
+ * get the extreme positions horizontally "left | right"
+ * @callback calculatePosition calculate the next position according to the order initialstate
+ * @returns a list of positions
+ */
 function getExtremePositionsOfTheTiles(
   board: number, 
   calculatePosition: (lastPosition: number) => number,
@@ -56,6 +70,7 @@ function getExtremePositionsOfTheTiles(
 export default function useLettersGame() {
   const [state, dispatch] = React.useReducer(letterGameReducer, initialState)
 
+  // bring the left side positions
   const tilesPositionLeft = React.useMemo(() => {
     return getExtremePositionsOfTheTiles(state.board,
       (lastPosition) => lastPosition + state.board, 
@@ -63,6 +78,7 @@ export default function useLettersGame() {
     )
   }, [state.board])
 
+  // bring the right side positions
   const tilesPositionRight = React.useMemo(() => {
     return getExtremePositionsOfTheTiles(state.board,
       (lastPosition) => lastPosition - state.board, 
@@ -76,6 +92,10 @@ export default function useLettersGame() {
     () => words.includes(state.word.toLocaleLowerCase(),
   ), [state.word, words]) as boolean
 
+  /**
+   * gets the previous positions if it doesn't include in the extreme "left" and "right" positions
+   * and if it includes it returns only an empty array
+   */
   function getPreviousTilesPosition(lastPositionSelected: number) {
     if (tilesPositionLeft.includes(lastPositionSelected) || 
         tilesPositionRight.includes(lastPositionSelected)) {
@@ -87,6 +107,9 @@ export default function useLettersGame() {
     return [prevTilePosition, topPrevTilePosition, bottomPrevTilePosition]
   }
 
+  /**
+   * validates the range according to the maximum number of positions
+   */
   function tilesPositionRange(position: number | undefined) {
     if (position === undefined) return false;
 
@@ -102,6 +125,9 @@ export default function useLettersGame() {
     return position >= 0 && positionMinusOrEqual
   }
 
+  /**
+   * get all valid positions excep the previous positions
+   */
   function getRemainingTilesPosition(lastPositionSelected: number) {
     const nextTilePosition = tilesPositionRight.includes(lastPositionSelected) 
       ? lastPositionSelected - 1
@@ -113,6 +139,9 @@ export default function useLettersGame() {
     return [topTilePosition, topNextTilePosition, nextTilePosition, bottomTilePosition, bottomNextTilePosition]
   }
 
+  /**
+   * returns all valid positions according to the last selected tile
+   */
   function validTiles(lastPositionSelected: number) {
     const previousTilesPosition = getPreviousTilesPosition(lastPositionSelected)
     const remainingTilesPosition = getRemainingTilesPosition(lastPositionSelected)
