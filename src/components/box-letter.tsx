@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import {stylesValidation} from './board'
 
 export default function BoxLetter({word, isValid}: {word: string, isValid: boolean}) {
   return (
@@ -31,4 +32,25 @@ const BoxValid = styled.div<{ isValid: boolean }>`
     letter-spacing: initial;
     font-weight: 400;
     color: ${props => props.isValid ? '#CEDABD': '#F5C8CD'};
+`
+
+export const BoxWords = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+    margin: 0.1rem;
+    border: 1px solid;
+    padding: 0.1rem;
+    border-radius: 5px;
+    cursor: default;
+    text-transform: capitalize;
+  }
+
+  .match {
+    background: ${stylesValidation(true)};
+  }
 `

@@ -70,9 +70,11 @@ export default function useLettersGame() {
     )
   }, [state.board, state.quantity])
 
+  const words = React.useMemo(() => dictionary.words, [])
+
   const isValid = React.useMemo(
-    () => dictionary.words.includes(state.word.toLocaleLowerCase(),
-  ), [state.word]) as boolean
+    () => words.includes(state.word.toLocaleLowerCase(),
+  ), [state.word, words]) as boolean
 
   function getPreviousTilesPosition(lastPositionSelected: number) {
     if (tilesPositionLeft.includes(lastPositionSelected) || 
@@ -137,5 +139,5 @@ export default function useLettersGame() {
     dispatch({ type: 'RESTART_GAME' })
   }
 
-  return { ...state, selectTile, restartGame, isValid }
+  return { ...state, selectTile, restartGame, isValid, words }
 }

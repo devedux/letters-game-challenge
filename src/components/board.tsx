@@ -79,6 +79,6 @@ const TileStyled = styled.div<{ isSelected: boolean, isValid: boolean }>`
   `}
 `
 
-function stylesValidation(isValid: boolean) {
+export function stylesValidation(isValid: boolean) {
   return isValid ? 'linear-gradient(#ADE74D, #439422)' : 'linear-gradient(#F4505F, #A2071E)'
 }

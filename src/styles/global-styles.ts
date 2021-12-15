@@ -14,18 +14,12 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
   }
 
-  .flex {
-    display: flex;
+  .wrapper {
+    display: grid;
+    grid-template-columns: 400px 300px auto;
+    grid-gap: 20px
   }
-  .align-end {
-    align-items: flex-end;
-  }
-  .gap-20 {
-    gap: 20px;
-  }
-  .mx-700 {
-    max-width: 700px;
-  }
+
   .game-preview {
     width: 100%;
     min-height: 100%;

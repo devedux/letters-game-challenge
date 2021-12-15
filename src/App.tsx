@@ -3,12 +3,12 @@ import GlobalStyle from './styles/global-styles';
 import {ThemeProvider} from 'styled-components'
 import {theme} from './styles/theme'
 import {Container} from './components/container';
-import BoxLetter from './components/box-letter';
+import BoxLetter, { BoxWords } from './components/box-letter';
 import useLettersGame from './hooks/useLettersGame'
 
 export default function App() {
   const lettersGame = useLettersGame()
-  const {data: tiles, board, selectTile, word, restartGame, positions, isValid} = lettersGame
+  const {data: tiles, board, selectTile, word, restartGame, positions, isValid, words} = lettersGame
 
   return (
     <>
@@ -16,7 +16,7 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <Container prefix='layout'>
           <Container prefix='content'>
-            <div className='flex gap-20 mx-700'>
+            <div className='wrapper'>
               <Board
                 tiles={tiles}
                 board={board}
@@ -32,6 +32,14 @@ export default function App() {
                 ): <span></span>}
                 
                 <BoxLetter word={word} isValid={isValid} />
+              </div>
+              <div>
+                DICTIONARY
+                <BoxWords>
+                  {words.map(w => (
+                    <li key={w} className={isValid && word.toLocaleLowerCase() === w ? 'match' : ''} >{w}</li>
+                  ))}
+                </BoxWords>
               </div>
             </div>
           </Container>
