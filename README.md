@@ -24,7 +24,11 @@ npm install
 npm start
 ```
 
-## Seed data
+## Only Code
+
+```bash
+You can see only the code of the game in this path "./src/hooks/useLettersGame.ts"
+```
 
 ### Dictionary
 

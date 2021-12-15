@@ -22,6 +22,6 @@
   },
   "include": [
     "src",
-    "**/*.ts",
+    "**/*.ts", "only-logic-game.tsx",
   ]
 }
