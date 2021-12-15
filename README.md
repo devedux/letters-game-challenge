@@ -17,11 +17,11 @@ git clone git@github.com:devedux/letters-game-challenge.git
 ```
 
 ```bash
-yarn install
+yarn install or npm start
 ```
 
 ```bash
-yarn start
+yarn start or npm start
 ```
 
 ## Seed data
