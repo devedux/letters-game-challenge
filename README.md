@@ -1,5 +1,7 @@
 # Letters game 🔠
 
+[DEMO](https://letters-game-devedux.netlify.app/)
+
 ## React version
 
 v17.0.2
