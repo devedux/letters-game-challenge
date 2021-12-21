@@ -11,6 +11,8 @@ v17.0.2
 - react
 - styled-components
 - typescript
+- react contextAPI
+- composition
 
 ## Get started
 
